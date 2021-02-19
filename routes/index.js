@@ -12,7 +12,7 @@ router.get('/hello', function(req, res) {
   res.send("<b>Hello World!</b>");
 });
 
-router.put('/employees', function(req, res) {
+router.post('/employees', function(req, res) {
   var id = req.body.id;
   var fname = req.body.fname;
   var lname = req.body.lname;
@@ -35,7 +35,7 @@ router.put('/employees', function(req, res) {
   });
 });
 
-router.post('/employees', function(req, res) {
+router.put('/employees', function(req, res) {
   var id = req.body.id;
   var fname = req.body.fname;
   var lname = req.body.lname;
