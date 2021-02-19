@@ -12,7 +12,7 @@ router.get('/hello', function(req, res) {
   res.send("<b>Hello World!</b>");
 });
 
-router.put('/empInsert', function(req, res) {
+router.put('/employees', function(req, res) {
   var id = req.body.id;
   var fname = req.body.fname;
   var lname = req.body.lname;
@@ -35,7 +35,7 @@ router.put('/empInsert', function(req, res) {
   });
 });
 
-router.post('/empUpdate', function(req, res) {
+router.post('/employees', function(req, res) {
   var id = req.body.id;
   var fname = req.body.fname;
   var lname = req.body.lname;
@@ -69,13 +69,38 @@ router.post('/empUpdate', function(req, res) {
   });
 });
 
-router.get('/empList', function(req, res, next) { 
+router.get('/employees', function(req, res, next) { 
   fs.readFile(FILENAME,function(err, data) { 
     if (err) throw err;
     var employeeObj = JSON.parse(data.toString('utf8'));
     res.setHeader('Content-Type', 'application/json');
     res.write(JSON.stringify(employeeObj));
     res.end();
+  });
+});
+
+router.get('/employees/ID/:id', function(req, res, next) { 
+  var id = req.params.id;
+  fs.readFile(FILENAME,function(err, data) { 
+    if (err) throw err;
+    var empObj = JSON.parse(data.toString('utf8'));
+    var empArr = empObj.employees;
+    var emp = null;
+    for(i=0; i<empArr.length; i++){
+       var empElm = empArr[i];
+       if(empElm.id == id){
+          emp = empElm;
+          break;
+       }
+    }
+    //xxx response generation
+    if(emp != null){
+      res.setHeader('Content-Type', 'application/json');
+      res.write(JSON.stringify(emp));
+      res.end();
+    }else{
+      res.sendStatus(404);
+    }
   });
 });
 
